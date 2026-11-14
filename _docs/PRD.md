@@ -101,7 +101,9 @@ The public home page (`/`). Its single job: explain the product in seconds, buil
 
 ### FR-1c Business profile
 - Per user: business name, logo (optional), brand color; set during onboarding after sign-up.
-- Receiving account: see open question 1 (how each business is paid).
+- **Receiving bank account:** during onboarding the owner registers the account that receives payments (CLABE, account holder legal name, person or company, alias). Payments go straight to that account.
+- **Account status is visible:** *Pending* (being registered with Banxico, can take up to 5 business days) or *Active*. Until it is Active the owner cannot create QRs and sees a clear message and the expected wait. When it becomes Active the owner is told.
+- Registration errors (invalid CLABE, bank without CoDi) are explained in plain language.
 
 ### FR-2 QR creation
 - Generic: one click, calls Pey `POST /codi/qr` with `amount: 0`.
@@ -156,7 +158,8 @@ The public home page (`/`). Its single job: explain the product in seconds, buil
 |---|---|---|
 | No Pey test environment (docs: test in production with $0.01 MXN) | Real money, real banks | Use $0.01 payments; add "simulate payment" dev tool |
 | Webhooks need a public URL locally | Can't receive events | Tunnel (cloudflared/ngrok); reconciliation sync as backup |
-| Pey API key / registered payment account required | Blocks real QR creation | Confirm key early; fall back to a mock Pey client if needed |
+| Pey API key / registered payment account required | Blocks real QR creation | Key arrives 2026-11-14; mocked Pey client until then |
+| Business bank accounts take up to 5 business days to become Active at Pey/Banxico | New users can't create QRs right away; real-payment test and demo could be blocked | Register the demo/team accounts in Sprint 1; show Pending status clearly; keep a demo fallback (see backlog) |
 | Wallet passes are static; custom QRs are one-off/expire | Wallet misleading for custom QR | Wallet is primarily for the generic QR |
 | Real wallets need Apple Developer ($99/yr) + Pass Type ID certs, and a Google Wallet Issuer account | Post-MVP lead time | Mock behind `WalletProvider`; start account setup in parallel |
 | Cross-user data leak (multi-tenant) | Privacy breach, loss of trust | Scope every query by session user; isolation tests; 404 on foreign resources |
@@ -182,7 +185,7 @@ The public home page (`/`). Its single job: explain the product in seconds, buil
 
 ## 13. Open questions
 
-1. Does the team already have a Pey API key and a registered CoDi payment account? **And how does each user get paid?** Recommended: one app-level Pey API key, and each business registers its own bank account via Pey `POST /bank-account` (stored as `peyBankAccountId`, sent as `bankAccountId` on QR creation), so payments go straight to each business. Alternative: each user pastes their own Pey API key (more setup, separate webhooks per key).
+1. ~~How each user gets paid~~ **Decided:** one app-level Pey API key; each business registers its own bank account (CLABE) with Pey, so payments go straight to the business. The API key arrives later on 2026-11-14 (until then, work against a mocked Pey client).
 2. ~~Single or multiple businesses~~ **Decided:** multiple users, each with an isolated workspace.
 3. ~~UI language~~ **Decided:** Spanish and English.
 4. Should custom QRs be allowed in the wallet mock, or generic only?
