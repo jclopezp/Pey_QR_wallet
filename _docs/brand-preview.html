@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BuzzQR Brand Preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap">
+<style>
+/* Visual preview of BRAND.md (palette A, Azul Confianza).
+   Every themed panel is scoped by .t-light / .t-dark so both themes are always visible.
+   Source of truth for values: _docs/BRAND.md */
+:root{
+  --font-ui:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --font-head:'Plus Jakarta Sans','Inter',system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;font-family:var(--font-ui);font-size:1rem;line-height:1.5;background:#EEF2F9;color:#0B1220;
+  padding:32px max(16px,env(safe-area-inset-right,0px)) 64px max(16px,env(safe-area-inset-left,0px))}
+.page{max-width:1120px;margin:0 auto;display:flex;flex-direction:column;gap:40px}
+h1,h2,h3,h4,p{margin:0}
+.page-head h1{font:800 clamp(1.75rem,4vw,2.5rem)/1.15 var(--font-head);letter-spacing:-.02em;color:#0B2A5B;text-wrap:balance}
+.page-head p{margin-top:8px;color:#4A5873;max-width:68ch}
+.section{display:flex;flex-direction:column;gap:16px}
+.section>h2{font:700 1.5rem/1.3 var(--font-head);color:#0B2A5B}
+.section>p.note{color:#4A5873;max-width:72ch;font-size:.9375rem}
+
+/* ---------- theme tokens (from BRAND.md) ---------- */
+.t-light{
+  --bg:#F5F8FF;--surface:#FFFFFF;--text:#0B1220;--muted:#4A5873;--brand:#0B2A5B;--brand-text:#FFFFFF;
+  --action:#1F5EFF;--action-text:#FFFFFF;--success:#00B37E;--success-ink:#0B1220;--success-text:#067A55;
+  --error:#C62F34;--warning:#F59E0B;--border:#6F7C93;--divider:#DCE3F0;--focus:#1F5EFF;color-scheme:light}
+.t-dark{
+  --bg:#0A1426;--surface:#0E2347;--text:#EAF0FF;--muted:#A9B7D0;--brand:#0E2347;--brand-text:#EAF0FF;
+  --action:#5B8CFF;--action-text:#0A1426;--success:#00B37E;--success-ink:#0B1220;--success-text:#3DDC9F;
+  --error:#FF7A7E;--warning:#F59E0B;--border:#7C8CAB;--divider:#1F3566;--focus:#5B8CFF;color-scheme:dark}
+.panel{background:var(--bg);color:var(--text);border:1px solid rgba(110,125,150,.35);border-radius:16px;padding:24px;min-width:0}
+.panel-label{font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:16px;display:block}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:860px){.two{grid-template-columns:1fr}}
+
+/* ---------- palette strip ---------- */
+.chips{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px}
+.chip{border-radius:12px;overflow:hidden;border:1px solid var(--divider);background:var(--surface);font-size:.75rem;line-height:1.4}
+.chip i{display:block;height:44px}
+.chip span{display:block;padding:6px 8px;color:var(--text)}
+.chip b{display:block;font-size:.8125rem}
+.chip code{font-family:ui-monospace,Menlo,monospace;color:var(--muted)}
+
+/* ---------- type specimens ---------- */
+.devices{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:20px;align-items:start}
+@media(max-width:980px){.devices{grid-template-columns:1fr}}
+.device{background:#fff;color:#0B1220;border:1px solid #C9D3E6;border-radius:16px;overflow:hidden;min-width:0}
+.device>header{background:#0B2A5B;color:#fff;padding:8px 14px;font-size:.75rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;display:flex;justify-content:space-between;gap:8px}
+.device>header span{font-weight:500;opacity:.8;text-transform:none;letter-spacing:0}
+.device .body{padding:20px;display:flex;flex-direction:column;gap:14px;overflow-x:auto}
+.mobile-frame{max-width:375px;width:100%;margin:0 auto;border:0}
+.sp{display:grid;grid-template-columns:84px 1fr;gap:12px;align-items:baseline;border-bottom:1px solid #E5EAF4;padding-bottom:12px}
+.sp:last-child{border-bottom:0;padding-bottom:0}
+.sp small{font:500 .6875rem/1.35 ui-monospace,Menlo,monospace;color:#4A5873}
+.sp .s{min-width:0;overflow-wrap:anywhere}
+.f-disp{font:800 var(--sz)/var(--lh) var(--font-head);letter-spacing:-.02em;color:#0B2A5B}
+.f-h{font:700 var(--sz)/var(--lh) var(--font-head);color:#0B2A5B}
+.f-h3{font:600 var(--sz)/var(--lh) var(--font-ui);color:#0B2A5B}
+.f-body{font:400 var(--sz)/var(--lh) var(--font-ui)}
+.f-small{font:500 var(--sz)/var(--lh) var(--font-ui);color:#4A5873}
+.f-amount{font:700 var(--sz)/var(--lh) var(--font-ui);font-variant-numeric:tabular-nums;font-feature-settings:"tnum","zero";color:#067A55}
+.f-btn{font:600 var(--sz)/var(--lh) var(--font-ui)}
+.typefaces{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:700px){.typefaces{grid-template-columns:1fr}}
+.face{background:var(--surface);border:1px solid var(--divider);border-radius:14px;padding:18px;color:var(--text)}
+.face .big{font-size:3rem;line-height:1.1;margin:6px 0 8px}
+.face p{color:var(--muted);font-size:.875rem}
+.numdemo{font-variant-numeric:tabular-nums;font-feature-settings:"tnum","zero"}
+
+/* ---------- UI components (use theme tokens) ---------- */
+.stack{display:flex;flex-direction:column;gap:20px}
+.row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;min-width:44px;padding:0 20px;border-radius:12px;
+  font:600 1rem/1.5 var(--font-ui);cursor:pointer;border:2px solid transparent;text-decoration:none}
+.btn-primary{background:var(--action);color:var(--action-text)}
+.btn-primary:hover{filter:brightness(.92)}
+.btn-secondary{background:var(--surface);color:var(--action);border-color:var(--action)}
+.btn-danger{background:var(--error);color:#fff}
+.t-dark .btn-danger{color:#0A1426}
+.btn[disabled]{opacity:.4;cursor:not-allowed}
+.btn:focus-visible,.show-focus{outline:3px solid var(--focus);outline-offset:2px}
+.field{display:flex;flex-direction:column;gap:6px;min-width:0}
+.field label{font-weight:600;font-size:.9375rem}
+.input{min-height:48px;width:100%;padding:0 14px;border-radius:10px;border:1.5px solid var(--border);background:var(--surface);color:var(--text);font:400 1rem/1.5 var(--font-ui)}
+.input::placeholder{color:var(--muted)}
+.input:focus-visible,.input.show-focus{outline:3px solid var(--focus);outline-offset:2px;border-color:var(--focus)}
+.input.err{border-color:var(--error);border-width:2px}
+.help{font-size:.875rem;color:var(--muted)}
+.errtext{font-size:.875rem;color:var(--error);display:flex;gap:6px;align-items:flex-start;font-weight:500}
+.errtext svg,.toast svg{flex:none}
+.hdr{background:var(--brand);color:var(--brand-text);border-radius:12px;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;font:800 1.125rem/1.3 var(--font-head);border:1px solid var(--divider)}
+.hdr span{font:500 .875rem/1.4 var(--font-ui);opacity:.85}
+.hdr b{color:#9DB8FF}.t-light .hdr b{color:#8FB0FF}
+.qrcard{background:var(--surface);border:1px solid var(--divider);border-radius:16px;padding:20px;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center;box-shadow:0 2px 10px rgba(11,42,91,.08)}
+.t-dark .qrcard{box-shadow:none}
+.qrbox{background:#fff;padding:16px;border-radius:12px;line-height:0}
+.qrbox svg{width:min(240px,100%);height:auto;display:block}
+.qrcard h3{font:700 1.125rem/1.4 var(--font-ui)}
+.qrcard .meta{color:var(--muted);font-size:.875rem}
+.qrcard .amt{font:700 1.5rem/1.3 var(--font-ui);font-variant-numeric:tabular-nums;font-feature-settings:"tnum","zero"}
+.badge{display:inline-flex;gap:6px;align-items:center;font-size:.8125rem;font-weight:600;padding:3px 10px;border-radius:999px;border:1px solid var(--border);color:var(--text);background:var(--surface)}
+.toast{background:var(--success);color:var(--success-ink);border-radius:14px;padding:14px 16px;display:flex;gap:12px;align-items:center;font-weight:700}
+.toast .t-main{display:flex;flex-direction:column;line-height:1.3}
+.toast .t-main small{font-weight:500;font-size:.875rem}
+.toast .t-amt{margin-left:auto;font:700 1.25rem/1.2 var(--font-ui);font-variant-numeric:tabular-nums;font-feature-settings:"tnum","zero"}
+.statusrow{display:flex;gap:10px;flex-wrap:wrap}
+.pill{display:inline-flex;gap:6px;align-items:center;font-weight:600;font-size:.875rem;padding:4px 10px;border-radius:8px;border:1.5px solid}
+.pill.ok{color:var(--success-text);border-color:var(--success-text)}
+.pill.warn{color:var(--text);border-color:var(--warning);background:color-mix(in srgb,var(--warning) 16%,transparent)}
+.pill.bad{color:var(--error);border-color:var(--error)}
+
+/* ---------- spacing, radius, focus ---------- */
+.scale{display:flex;flex-direction:column;gap:8px}
+.sc{display:grid;grid-template-columns:72px 1fr;gap:12px;align-items:center;font-size:.8125rem;color:var(--muted)}
+.sc i{display:block;height:16px;background:var(--action);border-radius:4px}
+.radii{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px}
+.rad{background:var(--surface);border:2px solid var(--action);height:84px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:.8125rem;color:var(--text);padding:8px}
+.rules{margin:0;padding-left:1.1rem;color:var(--text);font-size:.9375rem}
+.rules li{margin:4px 0}
+.ringdemo{display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+.ringbox{width:120px;min-height:48px;display:flex;align-items:center;justify-content:center;border-radius:12px;background:var(--surface);border:1.5px solid var(--border);font-weight:600;font-size:.875rem;text-align:center;padding:8px}
+@media (prefers-reduced-motion:no-preference){.btn{transition:filter .15s}}
+</style>
+</head>
+<body>
+<div class="page">
+
+<header class="page-head">
+  <h1>BuzzQR brand preview</h1>
+  <p>Visual companion to <b>BRAND.md</b>: type specimens for desktop and mobile, UI components, and spacing, radius and focus rules, all rendered with the palette A (Azul Confianza) tokens in light and dark. The product name is temporary.</p>
+</header>
+
+<!-- 1. Palette -->
+<section class="section" aria-labelledby="s-pal">
+  <h2 id="s-pal">1. Palette tokens</h2>
+  <div class="two">
+    <div class="panel t-light"><span class="panel-label">Light</span>
+      <div class="chips">
+        <div class="chip"><i style="background:#0B2A5B"></i><span><b>Midnight</b><code>#0B2A5B</code></span></div>
+        <div class="chip"><i style="background:#1F5EFF"></i><span><b>Electric</b><code>#1F5EFF</code></span></div>
+        <div class="chip"><i style="background:#00B37E"></i><span><b>Emerald</b><code>#00B37E</code></span></div>
+        <div class="chip"><i style="background:#F5F8FF;border-bottom:1px solid #DCE3F0"></i><span><b>Ice</b><code>#F5F8FF</code></span></div>
+        <div class="chip"><i style="background:#0B1220"></i><span><b>Ink</b><code>#0B1220</code></span></div>
+        <div class="chip"><i style="background:#4A5873"></i><span><b>Muted</b><code>#4A5873</code></span></div>
+        <div class="chip"><i style="background:#C62F34"></i><span><b>Error</b><code>#C62F34</code></span></div>
+        <div class="chip"><i style="background:#6F7C93"></i><span><b>Border</b><code>#6F7C93</code></span></div>
+      </div></div>
+    <div class="panel t-dark"><span class="panel-label">Dark</span>
+      <div class="chips">
+        <div class="chip"><i style="background:#0A1426;border-bottom:1px solid #1F3566"></i><span><b>Background</b><code>#0A1426</code></span></div>
+        <div class="chip"><i style="background:#0E2347"></i><span><b>Surface</b><code>#0E2347</code></span></div>
+        <div class="chip"><i style="background:#5B8CFF"></i><span><b>Action</b><code>#5B8CFF</code></span></div>
+        <div class="chip"><i style="background:#00B37E"></i><span><b>Success</b><code>#00B37E</code></span></div>
+        <div class="chip"><i style="background:#EAF0FF"></i><span><b>Text</b><code>#EAF0FF</code></span></div>
+        <div class="chip"><i style="background:#A9B7D0"></i><span><b>Muted</b><code>#A9B7D0</code></span></div>
+        <div class="chip"><i style="background:#FF7A7E"></i><span><b>Error</b><code>#FF7A7E</code></span></div>
+        <div class="chip"><i style="background:#7C8CAB"></i><span><b>Border</b><code>#7C8CAB</code></span></div>
+      </div></div>
+  </div>
+</section>
+
+<!-- 2. Typography -->
+<section class="section" aria-labelledby="s-type">
+  <h2 id="s-type">2. Typography</h2>
+  <div class="typefaces t-light">
+    <div class="face">
+      <span class="panel-label">UI and body</span>
+      <div class="big" style="font-family:var(--font-ui);font-weight:600">Inter</div>
+      <p>Weights 400, 500, 600, 700. Large x-height and open letterforms for small sizes. Used for all UI text, numbers and body copy.</p>
+      <p class="numdemo" style="margin-top:8px;color:var(--text);font-size:1.125rem">$1,250.00 MXN &middot; 0123456789 &middot; O0 Il1</p>
+    </div>
+    <div class="face">
+      <span class="panel-label">Headings (20 px and up)</span>
+      <div class="big" style="font-family:var(--font-head);font-weight:800">Plus Jakarta Sans</div>
+      <p>Weights 700 and 800. Landing page and large titles only; never below 20 px.</p>
+      <p style="margin-top:8px;color:var(--text);font-family:var(--font-head);font-weight:700;font-size:1.25rem">Cobra con QR, directo en tu Wallet</p>
+    </div>
+  </div>
+
+  <div class="devices">
+    <div class="device">
+      <header>Desktop <span>1024 px and up</span></header>
+      <div class="body">
+        <div class="sp"><small>Display<br>56 / 64<br>800</small><div class="s f-disp" style="--sz:56px;--lh:64px">Cobra con QR</div></div>
+        <div class="sp"><small>H1<br>40 / 48<br>700</small><div class="s f-h" style="--sz:40px;--lh:48px">Tus códigos QR</div></div>
+        <div class="sp"><small>H2<br>28 / 36<br>700</small><div class="s f-h" style="--sz:28px;--lh:36px">Pagos recibidos hoy</div></div>
+        <div class="sp"><small>H3<br>20 / 28<br>600</small><div class="s f-h3" style="--sz:20px;--lh:28px">QR para pagos generales</div></div>
+        <div class="sp"><small>Body (landing 18/28)<br>16 / 26<br>400</small><div class="s f-body" style="--sz:16px;--lh:26px">Muestra tu código desde la Wallet y recibe el aviso en cuanto tu cliente pague. Sin tarjetas, sin terminal.</div></div>
+        <div class="sp"><small>Small<br>14 / 20<br>400-500</small><div class="s f-small" style="--sz:14px;--lh:20px">Creado el 14 nov 2026 · QR general</div></div>
+        <div class="sp"><small>Amount<br>48 / 56<br>700</small><div class="s f-amount" style="--sz:48px;--lh:56px">$1,250.00</div></div>
+        <div class="sp"><small>Button<br>16 / 24<br>600</small><div class="s f-btn" style="--sz:16px;--lh:24px">Agregar a Wallet</div></div>
+      </div>
+    </div>
+    <div class="device mobile-frame">
+      <header>Mobile <span>375 px, base 16 px</span></header>
+      <div class="body">
+        <div class="sp"><small>Display<br>32 / 40<br>800</small><div class="s f-disp" style="--sz:32px;--lh:40px">Cobra con QR</div></div>
+        <div class="sp"><small>H1<br>28 / 36<br>700</small><div class="s f-h" style="--sz:28px;--lh:36px">Tus códigos QR</div></div>
+        <div class="sp"><small>H2<br>22 / 30<br>700</small><div class="s f-h" style="--sz:22px;--lh:30px">Pagos recibidos hoy</div></div>
+        <div class="sp"><small>H3<br>18 / 26<br>600</small><div class="s f-h3" style="--sz:18px;--lh:26px">QR para pagos generales</div></div>
+        <div class="sp"><small>Body<br>16 / 24<br>400</small><div class="s f-body" style="--sz:16px;--lh:24px">Muestra tu código desde la Wallet y recibe el aviso en cuanto tu cliente pague.</div></div>
+        <div class="sp"><small>Small<br>14 / 20<br>400-500</small><div class="s f-small" style="--sz:14px;--lh:20px">Creado el 14 nov 2026</div></div>
+        <div class="sp"><small>Amount<br>36 / 44<br>700</small><div class="s f-amount" style="--sz:36px;--lh:44px">$1,250.00</div></div>
+        <div class="sp"><small>Button<br>16 / 24<br>600</small><div class="s f-btn" style="--sz:16px;--lh:24px">Agregar a Wallet</div></div>
+      </div>
+    </div>
+  </div>
+  <p class="note">Use <code>clamp()</code> between the two scales so sizes change smoothly. Text in <code>rem</code>, minimum 14 px for any text, body at least 16 px, line height at least 1.5 for body copy. Must work at 200% zoom and 320 px wide.</p>
+</section>
+
+<!-- 3. Components -->
+<section class="section" aria-labelledby="s-ui">
+  <h2 id="s-ui">3. UI components</h2>
+  <div class="two">
+    <!-- LIGHT -->
+    <div class="panel t-light"><span class="panel-label">Light</span>
+      <div class="stack">
+        <div class="hdr"><div>Buzz<b>QR</b></div><span>Mi negocio</span></div>
+        <div class="row">
+          <button class="btn btn-primary" type="button">Crear QR</button>
+          <button class="btn btn-secondary" type="button">Ver historial</button>
+          <button class="btn btn-danger" type="button">Desactivar</button>
+          <button class="btn btn-primary" type="button" disabled>No disponible</button>
+        </div>
+        <div class="row">
+          <button class="btn btn-primary show-focus" type="button">Con foco de teclado</button>
+        </div>
+        <div class="field"><label for="l-amt">Monto (MXN)</label>
+          <input class="input" id="l-amt" type="text" inputmode="decimal" placeholder="0.00" value="150.00">
+          <span class="help">Déjalo en blanco para un QR general.</span></div>
+        <div class="field"><label for="l-con">Concepto</label>
+          <input class="input err" id="l-con" type="text" aria-invalid="true" aria-describedby="l-con-e" value="">
+          <span class="errtext" id="l-con-e"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 16.5v.5"/></svg>Escribe un concepto para el QR con monto.</span></div>
+        <div class="qrcard">
+          <span class="badge">QR general</span>
+          <div class="qrbox"><svg class="qrsvg" data-seed="7" viewBox="0 0 29 29" role="img" aria-label="Código QR de BuzzQR, QR general, sin monto"></svg></div>
+          <h3>Mi negocio</h3>
+          <div class="meta">El cliente escribe el monto</div>
+          <button class="btn btn-primary" type="button">Agregar a Wallet</button>
+        </div>
+        <div class="qrcard">
+          <span class="badge">QR con monto</span>
+          <div class="amt">$150.00 MXN</div>
+          <div class="meta">Pedido #1042 · vence en 10 min</div>
+        </div>
+        <div class="toast" role="status"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M7.5 12.5l3 3 6-7"/></svg>
+          <div class="t-main">Pago recibido<small>QR general · 12:42</small></div><div class="t-amt">$150.00</div></div>
+        <div class="statusrow">
+          <span class="pill ok">✓ Pagado</span><span class="pill warn">⏳ Pendiente</span><span class="pill bad">✕ Expirado</span>
+        </div>
+      </div>
+    </div>
+    <!-- DARK -->
+    <div class="panel t-dark"><span class="panel-label">Dark</span>
+      <div class="stack">
+        <div class="hdr"><div>Buzz<b>QR</b></div><span>Mi negocio</span></div>
+        <div class="row">
+          <button class="btn btn-primary" type="button">Crear QR</button>
+          <button class="btn btn-secondary" type="button">Ver historial</button>
+          <button class="btn btn-danger" type="button">Desactivar</button>
+          <button class="btn btn-primary" type="button" disabled>No disponible</button>
+        </div>
+        <div class="row">
+          <button class="btn btn-primary show-focus" type="button">Con foco de teclado</button>
+        </div>
+        <div class="field"><label for="d-amt">Monto (MXN)</label>
+          <input class="input" id="d-amt" type="text" inputmode="decimal" placeholder="0.00" value="150.00">
+          <span class="help">Déjalo en blanco para un QR general.</span></div>
+        <div class="field"><label for="d-con">Concepto</label>
+          <input class="input err" id="d-con" type="text" aria-invalid="true" aria-describedby="d-con-e" value="">
+          <span class="errtext" id="d-con-e"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 16.5v.5"/></svg>Escribe un concepto para el QR con monto.</span></div>
+        <div class="qrcard">
+          <span class="badge">QR general</span>
+          <div class="qrbox"><svg class="qrsvg" data-seed="7" viewBox="0 0 29 29" role="img" aria-label="Código QR de BuzzQR, QR general, sin monto"></svg></div>
+          <h3>Mi negocio</h3>
+          <div class="meta">El cliente escribe el monto</div>
+          <button class="btn btn-primary" type="button">Agregar a Wallet</button>
+        </div>
+        <div class="qrcard">
+          <span class="badge">QR con monto</span>
+          <div class="amt">$150.00 MXN</div>
+          <div class="meta">Pedido #1042 · vence en 10 min</div>
+        </div>
+        <div class="toast" role="status"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M7.5 12.5l3 3 6-7"/></svg>
+          <div class="t-main">Pago recibido<small>QR general · 12:42</small></div><div class="t-amt">$150.00</div></div>
+        <div class="statusrow">
+          <span class="pill ok">✓ Pagado</span><span class="pill warn">⏳ Pendiente</span><span class="pill bad">✕ Expirado</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="note">The QR is always dark on white with a quiet zone, also in dark mode. State is shown with icon + text, never color alone. The toast uses <code>role="status"</code>, stays at least 6 s and is pausable. The QR drawn here is a decorative sample, not a scannable code.</p>
+</section>
+
+<!-- 4. Spacing, radius, focus -->
+<section class="section" aria-labelledby="s-sp">
+  <h2 id="s-sp">4. Spacing, radius and focus</h2>
+  <div class="two">
+    <div class="panel t-light"><span class="panel-label">Light</span>
+      <div class="stack">
+        <div><h3 style="font:700 1rem/1.4 var(--font-ui);margin-bottom:8px">Spacing (8 px grid, base 4 px)</h3>
+          <div class="scale">
+            <div class="sc">4 px<i style="width:4px"></i></div><div class="sc">8 px<i style="width:8px"></i></div>
+            <div class="sc">12 px<i style="width:12px"></i></div><div class="sc">16 px<i style="width:16px"></i></div>
+            <div class="sc">24 px<i style="width:24px"></i></div><div class="sc">32 px<i style="width:32px"></i></div>
+            <div class="sc">48 px<i style="width:48px"></i></div><div class="sc">64 px<i style="width:64px"></i></div>
+          </div>
+        </div>
+        <div><h3 style="font:700 1rem/1.4 var(--font-ui);margin-bottom:8px">Radius</h3>
+          <div class="radii">
+            <div class="rad" style="border-radius:10px">10 px<br>inputs</div>
+            <div class="rad" style="border-radius:12px">12 px<br>buttons</div>
+            <div class="rad" style="border-radius:16px">16 px<br>cards</div>
+            <div class="rad" style="border-radius:999px">pill<br>badges</div>
+          </div>
+        </div>
+        <div><h3 style="font:700 1rem/1.4 var(--font-ui);margin-bottom:8px">Focus ring</h3>
+          <div class="ringdemo"><div class="ringbox show-focus">3 px Electric, 2 px offset</div><div class="ringbox">Default</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="panel t-dark"><span class="panel-label">Dark</span>
+      <div class="stack">
+        <div><h3 style="font:700 1rem/1.4 var(--font-ui);margin-bottom:8px">Spacing (8 px grid, base 4 px)</h3>
+          <div class="scale">
+            <div class="sc">4 px<i style="width:4px"></i></div><div class="sc">8 px<i style="width:8px"></i></div>
+            <div class="sc">12 px<i style="width:12px"></i></div><div class="sc">16 px<i style="width:16px"></i></div>
+            <div class="sc">24 px<i style="width:24px"></i></div><div class="sc">32 px<i style="width:32px"></i></div>
+            <div class="sc">48 px<i style="width:48px"></i></div><div class="sc">64 px<i style="width:64px"></i></div>
+          </div>
+        </div>
+        <div><h3 style="font:700 1rem/1.4 var(--font-ui);margin-bottom:8px">Radius</h3>
+          <div class="radii">
+            <div class="rad" style="border-radius:10px">10 px<br>inputs</div>
+            <div class="rad" style="border-radius:12px">12 px<br>buttons</div>
+            <div class="rad" style="border-radius:16px">16 px<br>cards</div>
+            <div class="rad" style="border-radius:999px">pill<br>badges</div>
+          </div>
+        </div>
+        <div><h3 style="font:700 1rem/1.4 var(--font-ui);margin-bottom:8px">Focus ring</h3>
+          <div class="ringdemo"><div class="ringbox show-focus">3 px light blue, 2 px offset</div><div class="ringbox">Default</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="panel t-light">
+    <span class="panel-label">Layout and interaction rules</span>
+    <ul class="rules">
+      <li><b>Page gutter:</b> 16 px on mobile, 24 px or more on desktop. Content max width about 1120 px.</li>
+      <li><b>Cards:</b> 16 px radius, 20-24 px padding, one soft shadow level only (none in dark mode).</li>
+      <li><b>Touch targets:</b> at least 44 × 44 px, with at least 8 px between neighbors. Buttons and inputs are 48 px tall.</li>
+      <li><b>Focus:</b> visible 3 px ring on every interactive element, never removed. Keyboard-only use must work.</li>
+      <li><b>Inputs:</b> visible label above, 1.5 px border with at least 3:1 contrast, error text with icon linked to the field.</li>
+      <li><b>Motion:</b> subtle and short; respect <code>prefers-reduced-motion</code>; nothing flashes.</li>
+    </ul>
+  </div>
+</section>
+
+</div>
+
+<script>
+/* Decorative QR sample: deterministic pseudo-random modules plus finder patterns. Not scannable. */
+(function(){
+  var N=29;
+  function rng(seed){var s=seed;return function(){s=(s*1664525+1013904223)%4294967296;return s/4294967296}}
+  function finder(g,x,y){for(var i=0;i<7;i++)for(var j=0;j<7;j++){
+    var edge=i===0||j===0||i===6||j===6,core=i>1&&i<5&&j>1&&j<5;g[y+i][x+j]=edge||core?1:0}
+    for(var k=-1;k<8;k++){[[y-1,x+k],[y+7,x+k],[y+k,x-1],[y+k,x+7]].forEach(function(p){
+      if(g[p[0]]&&g[p[0]][p[1]]!==undefined)g[p[0]][p[1]]=0})}}
+  document.querySelectorAll('.qrsvg').forEach(function(svg){
+    var r=rng(+svg.dataset.seed||1),g=[];
+    for(var y=0;y<N;y++){g[y]=[];for(var x=0;x<N;x++)g[y][x]=r()>0.52?1:0}
+    finder(g,0,0);finder(g,N-7,0);finder(g,0,N-7);
+    var d='';
+    for(var y=0;y<N;y++)for(var x=0;x<N;x++)if(g[y][x])d+='M'+x+' '+y+'h1v1h-1z';
+    svg.innerHTML='<rect width="'+N+'" height="'+N+'" fill="#fff"/><path d="'+d+'" fill="#0B1220"/>';
+  });
+})();
+</script>
+</body>
+</html>

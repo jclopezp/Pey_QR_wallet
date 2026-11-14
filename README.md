@@ -1,4 +1,6 @@
-# Pey QR Wallet
+# BuzzQR
+
+> Temporary name. Repo codename: Pey QR Wallet.
 
 Web app for businesses in Mexico to collect payments with CoDi QR codes, powered by the [Pey API](https://docs.pey.mx/).
 
@@ -29,6 +31,7 @@ _docs           # product docs
 ## Docs
 
 - [Product Requirements (PRD)](_docs/PRD.md)
+- [Brand book](_docs/BRAND.md) (colors, typography, accessibility) · [color options](_docs/color-palettes.html) · [brand preview](_docs/brand-preview.html)
 - [Pey API reference](https://docs.pey.mx/) · [OpenAPI spec](https://docs.pey.mx/openapi.json)
 
 ## Local testing notes

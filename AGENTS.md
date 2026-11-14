@@ -1,10 +1,10 @@
 # AGENTS.md
 
-Instructions for AI coding agents working in this repo. Read `README.md` and `_docs/PRD.md` first; the PRD is the source of truth for scope.
+Instructions for AI coding agents working in this repo. Read `README.md`, `_docs/PRD.md` (scope) and `_docs/BRAND.md` (colors, type, accessibility) before building anything.
 
 ## Project
 
-Pey QR Wallet: a web app for Mexican businesses to create CoDi payment QRs via the [Pey API](https://docs.pey.mx/), get notified when paid, and keep a payment history. Hackatons MVP, runs locally. Apple/Google Wallet are **mocked**.
+BuzzQR (temporary name; repo codename Pey QR Wallet): a web app for Mexican businesses to create CoDi payment QRs via the [Pey API](https://docs.pey.mx/), get notified when paid, and keep a payment history. Hackathon MVP, runs locally. Apple/Google Wallet are **mocked**.
 
 ## Stack and layout (planned)
 
@@ -14,17 +14,27 @@ Node + TypeScript, Fastify API, SQLite (Drizzle), React + Vite, npm workspaces.
 apps/api        # Fastify API, Pey client, webhooks, SSE, WalletProvider
 apps/web        # React dashboard
 packages/shared # shared types (Qr, Payment, API contracts)
-_docs           # PRD and product docs
+_docs           # PRD, brand book, product docs
 ```
 
 Keep to this layout. Put shared types in `packages/shared`, not duplicated in each app.
 
 ## Scope rules
 
-- Stay within the PRD MVP. Non-goals: real wallet passes, multi-tenant/auth, payment links, CoDi push notifications, CFDI, deployment.
+- Stay within the PRD MVP. Non-goals: real wallet passes, roles/teams, password reset, payment links, CoDi push notifications, CFDI, deployment.
 - Two QR types only: **generic** (`amount: 0`, no concept, no expiration) and **custom** (amount > 0, concept required, optional expiration of at least 360 s).
 - Wallets go behind `WalletProvider`; implement only `MockWalletProvider`. Do not add Apple/Google certificates or APIs.
-- Keep `businessId` in the schema, but assume a single business.
+- Basic email + password auth (httpOnly cookie sessions). Each user has one isolated workspace: scope **every** query by the session user, never by client-supplied ids, and return 404 for other users' resources. See FR-1/FR-1b in the PRD.
+
+## UI, brand and accessibility
+
+- Follow `_docs/BRAND.md`. Define its colors, type scale and spacing as CSS variables (design tokens) with light and dark themes; no hard-coded hex values in components.
+- Fonts: Inter (UI/body) and Plus Jakarta Sans (large headings only). Body text at least 16 px, in `rem`; money uses tabular figures.
+- Target **WCAG 2.2 AA**: contrast per the brand book, visible focus rings, 44 px touch targets, keyboard support, labels on all inputs, `prefers-reduced-motion` respected.
+- Never use color alone for state (success, error, warning): add an icon and text. Green (Emerald) is only for "payment received", and is never a text color on white.
+- Payment notifications use an ARIA live region (`role="status"`). QR codes are always dark on white, also in dark mode.
+- Mobile first; check desktop and 320 px wide at 200% zoom.
+- Landing page (`/`, FR-0): bilingual (es-MX default, en) via i18n files; no invented testimonials, user counts or badges; CoDi and Pey logos allowed.
 
 ## Pey API
 
@@ -49,3 +59,5 @@ Keep to this layout. Put shared types in `packages/shared`, not duplicated in ea
 - Add tests for webhook handling (signature, dedupe) and QR creation rules.
 - Ask before adding new dependencies or changing the stack.
 - Do not commit or push unless the user asks. Git remote is SSH (`jclopezp/Pey_QR_wallet`).
+- Product name lives in one config constant (currently `BuzzQR`); never hard-code it in copy or translations.
+- All user-facing text goes through i18n (Spanish and English); no hard-coded strings in components.

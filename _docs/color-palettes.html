@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BuzzQR Color Palette</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<style>
+/* Layout: three palette cards, each with swatches, contrast table and a light/dark UI preview. Page chrome stays neutral so the palettes carry the color. */
+:root{
+  --bg:#F6F7F9; --surface:#FFFFFF; --fg:#0F1623; --muted:#5A6577; --line:#E2E6EC; --chip:#EEF1F5;
+  --font:'Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E131B;--surface:#161D28;--fg:#EDF1F7;--muted:#9AA6B8;--line:#273141;--chip:#1E2735;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0E131B;--surface:#161D28;--fg:#EDF1F7;--muted:#9AA6B8;--line:#273141;--chip:#1E2735;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--font);font-size:15px;line-height:1.55;
+  padding-block:32px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1040px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+header h1{font-size:clamp(26px,4vw,36px);line-height:1.15;margin:0 0 8px;font-weight:800;letter-spacing:-.02em;text-wrap:balance}
+header p{margin:0;color:var(--muted);max-width:62ch}
+.pick{display:inline-block;margin-top:14px;padding:6px 12px;border-radius:999px;background:var(--chip);font-size:13px;font-weight:600}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:20px}
+.card h2{margin:0;font-size:22px;font-weight:800;letter-spacing:-.01em;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.tag{font-size:12px;font-weight:700;padding:3px 10px;border-radius:999px;background:var(--chip);color:var(--muted)}
+.tag.rec{background:#00B37E;color:#06241A}
+.lede{margin:0;color:var(--muted);max-width:70ch}
+.swatches{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
+.sw{border:1px solid var(--line);border-radius:12px;overflow:hidden;min-width:0}
+.sw i{display:block;height:64px}
+.sw div{padding:8px 10px;font-size:12px;line-height:1.4}
+.sw b{display:block;font-size:13px}
+.sw code{font-family:ui-monospace,Menlo,monospace;color:var(--muted)}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:760px){.cols{grid-template-columns:1fr}}
+.col{min-width:0;display:flex;flex-direction:column;gap:8px}
+.col h3{margin:0;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
+ul.pc{margin:0;padding-left:18px;color:var(--fg)} ul.pc li{margin:2px 0}
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+th{color:var(--muted);font-weight:600}
+.ok{color:#0B8A5F;font-weight:700}.no{color:#D13B40;font-weight:700}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .ok{color:#3DDC9F}:root:not([data-theme="light"]) .no{color:#FF7A7E}}
+:root[data-theme="dark"] .ok{color:#3DDC9F}:root[data-theme="dark"] .no{color:#FF7A7E}
+
+/* palette-scoped preview tokens */
+.pal-a{--p:#0B2A5B;--act:#1F5EFF;--act-t:#fff;--good:#00B37E;--good-t:#06241A;--bgl:#F5F8FF;--ink:#0B1220;--bgd:#0A1426;--actd:#5B8CFF;--pd:#0E2347}
+.pal-b{--p:#0A3D3A;--act:#0A7A6B;--act-t:#fff;--good:#FFB020;--good-t:#3A2400;--bgl:#F4FAF8;--ink:#0B1A19;--bgd:#08201F;--actd:#2FC7B0;--pd:#0C3330}
+.pal-c{--p:#1E1B4B;--act:#5B3DF5;--act-t:#fff;--good:#22D3EE;--good-t:#06303A;--bgl:#F7F6FF;--ink:#14122E;--bgd:#12102E;--actd:#8C75FF;--pd:#1B1850}
+.mock{border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:12px;border:1px solid rgba(128,128,128,.25);min-width:0}
+.mock.light{background:var(--bgl);color:var(--ink);--m-p:var(--p);--m-act:var(--act);--m-card:#fff}
+.mock.dark{background:var(--bgd);color:#EAF0FF;--m-p:var(--pd);--m-act:var(--actd);--m-card:var(--pd)}
+.bar{background:var(--m-p);color:#fff;border-radius:10px;padding:10px 12px;font-weight:800;display:flex;justify-content:space-between;align-items:center;font-size:14px}
+.bar span{font-weight:500;font-size:12px;opacity:.8}
+.qrcard{background:var(--m-card);border-radius:12px;padding:12px;display:flex;gap:12px;align-items:center;border:1px solid rgba(128,128,128,.2)}
+.qr{width:64px;height:64px;flex:none;border-radius:6px;background:
+  conic-gradient(from 0deg at 50% 50%,currentColor 0 25%,transparent 0 50%,currentColor 0 75%,transparent 0) 0 0/16px 16px,#fff;color:var(--ink);border:4px solid #fff;outline:1px solid rgba(128,128,128,.3)}
+.qrcard b{font-size:14px;display:block}.qrcard small{opacity:.7;font-size:12px}
+.btn{border:0;border-radius:10px;padding:10px 14px;font:700 14px var(--font);background:var(--m-act);color:#fff;cursor:default;align-self:flex-start}
+.mock.dark .btn{color:#0A1426}
+.toast{background:var(--good);color:var(--good-t);border-radius:10px;padding:10px 12px;font-weight:700;font-size:13px;display:flex;justify-content:space-between;gap:8px}
+.mocklabel{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;opacity:.6}
+.foot{color:var(--muted);font-size:13px}
+.toggle{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:max(16px,env(safe-area-inset-bottom,0px));padding:9px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--fg);font:600 13px var(--font);cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.12)}
+:focus-visible{outline:2px solid #1F5EFF;outline-offset:2px}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+<header>
+  <h1>BuzzQR color palette: A, Azul Confianza</h1>
+  <p>Selected on 2026-11-14 for BuzzQR, a QR payment app for Mexico's financial sector (confidence, trust, innovation, security). Full rules, supporting tokens and typography are in <b>BRAND.md</b>. The two alternatives that were not chosen are kept below for reference.</p>
+  <span class="pick">Selected: A. Azul Confianza</span>
+</header>
+
+<!-- A -->
+<section class="card pal-a" aria-labelledby="ta">
+  <h2 id="ta">A. Azul Confianza <span class="tag rec">Selected</span></h2>
+  <p class="lede">Deep blue is the established language of banking and security. Electric blue adds a modern edge, and green is saved for the one event that matters: money arrived.</p>
+  <div class="swatches">
+    <div class="sw"><i style="background:#0B2A5B"></i><div><b>Midnight</b><code>#0B2A5B</code><br>Brand, headers</div></div>
+    <div class="sw"><i style="background:#1F5EFF"></i><div><b>Electric</b><code>#1F5EFF</code><br>Buttons, links</div></div>
+    <div class="sw"><i style="background:#00B37E"></i><div><b>Emerald</b><code>#00B37E</code><br>Payment success</div></div>
+    <div class="sw"><i style="background:#F5F8FF"></i><div><b>Ice</b><code>#F5F8FF</code><br>Background</div></div>
+    <div class="sw"><i style="background:#0B1220"></i><div><b>Ink</b><code>#0B1220</code><br>Text</div></div>
+  </div>
+  <div class="cols">
+    <div class="col"><h3>Light</h3>
+      <div class="mock light">
+        <span class="mocklabel">Light preview</span>
+        <div class="bar">BuzzQR <span>Mi negocio</span></div>
+        <div class="qrcard"><div class="qr"></div><div><b>QR general</b><small>El cliente escribe el monto</small></div></div>
+        <button class="btn" tabindex="-1">Agregar a Wallet</button>
+        <div class="toast"><span>Pago recibido</span><span>$150.00 MXN</span></div>
+      </div></div>
+    <div class="col"><h3>Dark</h3>
+      <div class="mock dark">
+        <span class="mocklabel">Dark preview</span>
+        <div class="bar">BuzzQR <span>Mi negocio</span></div>
+        <div class="qrcard"><div class="qr"></div><div><b>QR general</b><small>El cliente escribe el monto</small></div></div>
+        <button class="btn" tabindex="-1">Agregar a Wallet</button>
+        <div class="toast"><span>Pago recibido</span><span>$150.00 MXN</span></div>
+      </div></div>
+  </div>
+  <div class="cols">
+    <div class="col"><h3>Strengths</h3><ul class="pc"><li>Reads as bank-grade trust at a glance</li><li>Green gives "payment received" its own signal</li><li>Strong contrast on both themes</li></ul></div>
+    <div class="col"><h3>Watch out</h3><ul class="pc"><li>Blue is common in fintech, so it relies on the green accent to stand out</li><li>Emerald fails with white text; use dark text on it</li></ul></div>
+  </div>
+  <div class="tablewrap"><table>
+    <tr><th>Pair</th><th>Ratio</th><th>AA</th></tr>
+    <tr><td>White on Midnight</td><td>14.0:1</td><td class="ok">Pass</td></tr>
+    <tr><td>White on Electric</td><td>5.1:1</td><td class="ok">Pass</td></tr>
+    <tr><td>Midnight on Emerald</td><td>5.2:1</td><td class="ok">Pass</td></tr>
+    <tr><td>White on Emerald</td><td>2.7:1</td><td class="no">Fail (icons and fills only)</td></tr>
+  </table></div>
+</section>
+
+<details style="display:contents"><summary style="cursor:pointer;font-weight:700;padding:4px 0">Alternatives not chosen (B and C)</summary>
+<!-- B -->
+<section class="card pal-b" aria-labelledby="tb">
+  <h2 id="tb">B. Verde Seguro <span class="tag">Fresh</span></h2>
+  <p class="lede">Teal and green suggest growth and money, and set the app apart from the many blue fintechs. Amber is the warm accent for payment alerts.</p>
+  <div class="swatches">
+    <div class="sw"><i style="background:#0A3D3A"></i><div><b>Deep teal</b><code>#0A3D3A</code><br>Brand, headers</div></div>
+    <div class="sw"><i style="background:#0A7A6B"></i><div><b>Teal</b><code>#0A7A6B</code><br>Buttons (darkened)</div></div>
+    <div class="sw"><i style="background:#FFB020"></i><div><b>Amber</b><code>#FFB020</code><br>Payment alert</div></div>
+    <div class="sw"><i style="background:#F4FAF8"></i><div><b>Mint white</b><code>#F4FAF8</code><br>Background</div></div>
+    <div class="sw"><i style="background:#0B1A19"></i><div><b>Ink</b><code>#0B1A19</code><br>Text</div></div>
+  </div>
+  <div class="cols">
+    <div class="col"><h3>Light</h3>
+      <div class="mock light">
+        <span class="mocklabel">Light preview</span>
+        <div class="bar">BuzzQR <span>Mi negocio</span></div>
+        <div class="qrcard"><div class="qr"></div><div><b>QR general</b><small>El cliente escribe el monto</small></div></div>
+        <button class="btn" tabindex="-1">Agregar a Wallet</button>
+        <div class="toast"><span>Pago recibido</span><span>$150.00 MXN</span></div>
+      </div></div>
+    <div class="col"><h3>Dark</h3>
+      <div class="mock dark">
+        <span class="mocklabel">Dark preview</span>
+        <div class="bar">BuzzQR <span>Mi negocio</span></div>
+        <div class="qrcard"><div class="qr"></div><div><b>QR general</b><small>El cliente escribe el monto</small></div></div>
+        <button class="btn" tabindex="-1">Agregar a Wallet</button>
+        <div class="toast"><span>Pago recibido</span><span>$150.00 MXN</span></div>
+      </div></div>
+  </div>
+  <div class="cols">
+    <div class="col"><h3>Strengths</h3><ul class="pc"><li>Distinct in a crowded blue market</li><li>Associated with money and growth</li></ul></div>
+    <div class="col"><h3>Watch out</h3><ul class="pc"><li>Less "bank-like" than blue</li><li>The first teal (<code>#0E8F7E</code>) was only 4.0:1 with white, so buttons use the darker <code>#0A7A6B</code></li><li>Green is not free to mean "success"</li></ul></div>
+  </div>
+  <div class="tablewrap"><table>
+    <tr><th>Pair</th><th>Ratio</th><th>AA</th></tr>
+    <tr><td>White on Deep teal</td><td>12.1:1</td><td class="ok">Pass</td></tr>
+    <tr><td>White on Teal <code>#0E8F7E</code></td><td>4.0:1</td><td class="no">Fail for small text</td></tr>
+    <tr><td>Deep teal on Amber</td><td>6.6:1</td><td class="ok">Pass</td></tr>
+  </table></div>
+</section>
+
+<!-- C -->
+<section class="card pal-c" aria-labelledby="tc">
+  <h2 id="tc">C. Violeta Fintech <span class="tag">Youthful</span></h2>
+  <p class="lede">The most innovative and energetic look, with cyan as a bright, digital accent for payments.</p>
+  <div class="swatches">
+    <div class="sw"><i style="background:#1E1B4B"></i><div><b>Indigo</b><code>#1E1B4B</code><br>Brand, headers</div></div>
+    <div class="sw"><i style="background:#5B3DF5"></i><div><b>Violet</b><code>#5B3DF5</code><br>Buttons, links</div></div>
+    <div class="sw"><i style="background:#22D3EE"></i><div><b>Cyan</b><code>#22D3EE</code><br>Payment success</div></div>
+    <div class="sw"><i style="background:#F7F6FF"></i><div><b>Lavender white</b><code>#F7F6FF</code><br>Background</div></div>
+    <div class="sw"><i style="background:#14122E"></i><div><b>Ink</b><code>#14122E</code><br>Text</div></div>
+  </div>
+  <div class="cols">
+    <div class="col"><h3>Light</h3>
+      <div class="mock light">
+        <span class="mocklabel">Light preview</span>
+        <div class="bar">BuzzQR <span>Mi negocio</span></div>
+        <div class="qrcard"><div class="qr"></div><div><b>QR general</b><small>El cliente escribe el monto</small></div></div>
+        <button class="btn" tabindex="-1">Agregar a Wallet</button>
+        <div class="toast"><span>Pago recibido</span><span>$150.00 MXN</span></div>
+      </div></div>
+    <div class="col"><h3>Dark</h3>
+      <div class="mock dark">
+        <span class="mocklabel">Dark preview</span>
+        <div class="bar">BuzzQR <span>Mi negocio</span></div>
+        <div class="qrcard"><div class="qr"></div><div><b>QR general</b><small>El cliente escribe el monto</small></div></div>
+        <button class="btn" tabindex="-1">Agregar a Wallet</button>
+        <div class="toast"><span>Pago recibido</span><span>$150.00 MXN</span></div>
+      </div></div>
+  </div>
+  <div class="cols">
+    <div class="col"><h3>Strengths</h3><ul class="pc"><li>Most modern and memorable</li><li>Excellent contrast (16:1 on indigo)</li></ul></div>
+    <div class="col"><h3>Watch out</h3><ul class="pc"><li>Reads as trendy more than serious or secure</li><li>Close to several known neobank palettes</li></ul></div>
+  </div>
+  <div class="tablewrap"><table>
+    <tr><th>Pair</th><th>Ratio</th><th>AA</th></tr>
+    <tr><td>White on Indigo</td><td>16.0:1</td><td class="ok">Pass</td></tr>
+    <tr><td>White on Violet</td><td>6.1:1</td><td class="ok">Pass</td></tr>
+    <tr><td>Indigo on Cyan</td><td>8.8:1</td><td class="ok">Pass</td></tr>
+  </table></div>
+</section>
+
+</details>
+
+<p class="foot">Final tokens, including the supporting colors added for accessibility (success text <b>#067A55</b>, error <b>#C62F34</b>, warning text <b>#8A5300</b>, border <b>#6F7C93</b>, muted text <b>#4A5873</b>) and the dark theme, are defined in BRAND.md. The CoDi and Pey logos keep their original colors.</p>
+</div>
+<button class="toggle" id="themeBtn" type="button">Toggle page theme</button>
+<script>
+(function(){
+  var b=document.getElementById('themeBtn');
+  b.addEventListener('click',function(){
+    var r=document.documentElement;
+    var dark=r.getAttribute('data-theme')==='dark'||(!r.getAttribute('data-theme')&&matchMedia('(prefers-color-scheme: dark)').matches);
+    r.setAttribute('data-theme',dark?'light':'dark');
+  });
+})();
+</script>
+</body>
+</html>
