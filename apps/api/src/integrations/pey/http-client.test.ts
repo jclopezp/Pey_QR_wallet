@@ -132,3 +132,78 @@ describe('HttpPeyClient.createQr', () => {
     expect(Date.now() - started).toBeLessThan(1000)
   })
 })
+
+describe('HttpPeyClient bank accounts', () => {
+  const clabe = '012180001234567899'
+  const accountId = '01JBAVWE4NS5TGXHWGMX3KH23Q'
+
+  it('registers a bank account and does not log the CLABE or the key', async () => {
+    const logs: unknown[] = []
+    let recorded: { url: string; body: unknown; authorization: string | null } | undefined
+    const fetchImpl: typeof fetch = async (input, init) => {
+      const headers = new Headers(init?.headers)
+      recorded = {
+        url: String(input),
+        body: JSON.parse(String(init?.body)),
+        authorization: headers.get('authorization'),
+      }
+      return jsonResponse(200, { id: accountId, codiStatus: 'PENDING' })
+    }
+    const client = new HttpPeyClient({
+      baseUrl,
+      apiKey: 'test-key',
+      fetchImpl,
+      logger: { info: (obj) => logs.push(obj) },
+    })
+
+    const result = await client.createBankAccount({
+      alias: 'BBVA',
+      name: 'Pagos con Pey S.A. de C.V.',
+      clabe,
+      entity: 'BUSINESS',
+    })
+
+    expect(recorded?.url).toBe(`${baseUrl}/bank-account`)
+    expect(recorded?.authorization).toBe('Bearer test-key')
+    expect(recorded?.body).toEqual({
+      alias: 'BBVA',
+      name: 'Pagos con Pey S.A. de C.V.',
+      clabe,
+      entity: 'BUSINESS',
+    })
+    expect(result).toEqual({ id: accountId, codiStatus: 'PENDING' })
+    expect(JSON.stringify(logs)).not.toContain(clabe)
+    expect(JSON.stringify(logs)).not.toContain('Bearer')
+  })
+
+  it('reads a bank account by id', async () => {
+    let recorded: { url: string; method: string; authorization: string | null } | undefined
+    const fetchImpl: typeof fetch = async (input, init) => {
+      const headers = new Headers(init?.headers)
+      recorded = {
+        url: String(input),
+        method: init?.method ?? 'GET',
+        authorization: headers.get('authorization'),
+      }
+      return jsonResponse(200, {
+        id: accountId,
+        alias: 'BBVA',
+        name: 'Pagos con Pey S.A. de C.V.',
+        clabe,
+        entity: 'BUSINESS',
+        codiStatus: 'ACTIVE',
+      })
+    }
+    const client = new HttpPeyClient({ baseUrl, apiKey: 'test-key', fetchImpl })
+    const result = await client.getBankAccount(accountId)
+
+    expect(recorded).toEqual({
+      url: `${baseUrl}/bank-account/${accountId}`,
+      method: 'GET',
+      authorization: 'Bearer test-key',
+    })
+    expect(result.clabe).toBe(clabe)
+    expect(result.entity).toBe('BUSINESS')
+    expect(result.codiStatus).toBe('ACTIVE')
+  })
+})

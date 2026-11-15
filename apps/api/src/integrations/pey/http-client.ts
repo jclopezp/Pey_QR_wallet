@@ -2,7 +2,7 @@ import { ZodError, z } from 'zod'
 import type { PeyErrorCode } from '@peyqr/shared'
 import { amountCentsToPey } from './money'
 import { PeyError } from './errors'
-import { createQrResponseSchema } from './schemas'
+import { bankAccountResponseSchema, createBankAccountResponseSchema, createQrResponseSchema } from './schemas'
 import type {
   BankAccountResult,
   CreateBankAccountInput,
@@ -35,23 +35,34 @@ export class HttpPeyClient implements PeyClient {
       body.concept = input.concept
     }
     const json = await this.request('POST', '/codi/qr', body)
+    const parsed = this.parse(createQrResponseSchema, json)
+    return { peyQrId: parsed.id, qrString: parsed.qrString }
+  }
+
+  async createBankAccount(input: CreateBankAccountInput): Promise<CreateBankAccountResult> {
+    const json = await this.request('POST', '/bank-account', {
+      alias: input.alias,
+      name: input.name,
+      clabe: input.clabe,
+      entity: input.entity,
+    })
+    return this.parse(createBankAccountResponseSchema, json)
+  }
+
+  async getBankAccount(id: string): Promise<BankAccountResult> {
+    const json = await this.request('GET', `/bank-account/${encodeURIComponent(id)}`)
+    return this.parse(bankAccountResponseSchema, json)
+  }
+
+  private parse<T>(schema: z.ZodType<T>, json: unknown): T {
     try {
-      const parsed = createQrResponseSchema.parse(json)
-      return { peyQrId: parsed.id, qrString: parsed.qrString }
+      return schema.parse(json)
     } catch (error) {
       if (error instanceof ZodError) {
         throw new PeyError('pey_unknown')
       }
       throw error
     }
-  }
-
-  createBankAccount(_input: CreateBankAccountInput): Promise<CreateBankAccountResult> {
-    throw new PeyError('pey_unknown')
-  }
-
-  getBankAccount(_id: string): Promise<BankAccountResult> {
-    throw new PeyError('pey_unknown')
   }
 
   private async request(method: string, path: string, body?: unknown): Promise<unknown> {
