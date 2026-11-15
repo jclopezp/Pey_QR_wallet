@@ -112,6 +112,30 @@ PR checklist (goes under `## Checklist` in the PR body):
 - **Merge method: squash merge.** The squash title is the PR title. History on `main` stays linear: one commit per story.
 - The author merges after approval and green CI.
 
+### Independent adversarial review
+
+Every PR gets an automated adversarial review from [`.claude/agents/adversarial-reviewer.md`](../../.claude/agents/adversarial-reviewer.md), run in a **new session** so it has no context from the development work.
+
+- **When:** right after the PR is created (draft is fine), and again after pushing fixes for its findings.
+- **Who suggests it:** the session (human or AI agent) that creates the PR MUST end its message with the box below, filled in with the real PR number and story ID. It MUST NOT run the review itself in that session.
+- **What the reviewer does:** checks the PR against the story, `AGENTS.md` and this document. It posts one comment-only review on the PR (inline where it can) and a short summary on the story's issue. It never approves, merges or moves the board card.
+- **What the author does:** resolves the review threads on the PR. The human approval above is still required.
+
+```text
++----------------------------------------------------------------+
+|  NEXT STEP: ADVERSARIAL REVIEW                                 |
+|                                                                |
+|  1. Open a NEW chat session (not this one).                    |
+|  2. Paste this prompt:                                         |
+|                                                                |
+|     @adversarial-reviewer review PR #<pr> (story <story ID>)   |
+|                                                                |
+|  Example: @adversarial-reviewer review PR #13 (story E1-1)     |
++----------------------------------------------------------------+
+```
+
+For a PR with no story, use `review PR #<pr>` and drop the story.
+
 ## 6. Keeping branches current
 
 - Before asking for review, and after `main` moves: `git fetch origin && git rebase origin/main`.
