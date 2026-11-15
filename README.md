@@ -27,7 +27,7 @@ cp .env.example .env   # fill in PEY_API_KEY, PEY_WEBHOOK_SECRET and SESSION_SEC
 npm run dev            # API on http://localhost:3001, web on http://localhost:5173
 ```
 
-Check the API with `curl http://localhost:3001/health`. Secrets can stay empty for local development; they are required when `NODE_ENV=production`.
+Check the API with `curl http://localhost:3001/health`. The three secrets are required in every environment; the API refuses to start if one is empty. Generate a local `SESSION_SECRET` with `openssl rand -hex 32`. Until you have real Pey credentials, any non-empty placeholder works for `PEY_API_KEY` and `PEY_WEBHOOK_SECRET`. `.env` is gitignored and stays on your machine.
 
 | Script              | What it does                                    |
 | ------------------- | ----------------------------------------------- |

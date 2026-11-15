@@ -11,6 +11,12 @@
       "Bash(git diff:*)",
       "Bash(git log:*)"
     ],
-    "deny": ["Read(./.env)", "Edit(./CLAUDE.md)"]
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Bash(cat .env)",
+      "Bash(cat .env.*)",
+      "Edit(./CLAUDE.md)"
+    ]
   }
 }

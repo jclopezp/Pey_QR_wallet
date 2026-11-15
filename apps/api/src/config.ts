@@ -2,24 +2,16 @@ import { z } from 'zod';
 
 const nonEmpty = z.string().min(1);
 
-const EnvSchema = z
-  .object({
-    NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
-    PORT: z.coerce.number().int().positive().default(3001),
-    PEY_BASE_URL: z.url(),
-    DATABASE_URL: nonEmpty,
-    // Secrets: may be empty while developing locally, required in production.
-    PEY_API_KEY: z.string().default(''),
-    PEY_WEBHOOK_SECRET: z.string().default(''),
-    SESSION_SECRET: z.string().default(''),
-  })
-  .superRefine((env, ctx) => {
-    if (env.NODE_ENV !== 'production') return;
-    for (const key of ['PEY_API_KEY', 'PEY_WEBHOOK_SECRET', 'SESSION_SECRET'] as const) {
-      if (!env[key])
-        ctx.addIssue({ code: 'custom', path: [key], message: 'Required in production' });
-    }
-  });
+const EnvSchema = z.object({
+  NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
+  PORT: z.coerce.number().int().positive().default(3001),
+  PEY_BASE_URL: z.url({ protocol: /^https?$/ }),
+  DATABASE_URL: nonEmpty,
+  // Secrets are required in every environment so a forgotten NODE_ENV can never boot with an empty key.
+  PEY_API_KEY: nonEmpty,
+  PEY_WEBHOOK_SECRET: nonEmpty,
+  SESSION_SECRET: nonEmpty,
+});
 
 export type Config = z.infer<typeof EnvSchema>;
 
