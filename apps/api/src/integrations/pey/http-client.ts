@@ -127,8 +127,7 @@ export class HttpPeyClient implements PeyClient {
   private toPeyError(json: unknown, code: PeyErrorCode): PeyError {
     const parsed = peyErrorEnvelope.safeParse(json)
     const type = parsed.success ? parsed.data.error.type : undefined
-    const peyType = type !== undefined && /^[A-Z0-9_]{1,64}$/.test(type) ? type : undefined
-    return new PeyError(code, peyType)
+    return new PeyError(code, safePeyType(type, this.options.apiKey))
   }
 
   private log(method: string, path: string, status: number, durationMs: number): void {
@@ -142,6 +141,19 @@ const peyErrorEnvelope = z.object({
 
 function ensureTrailingSlash(baseUrl: string): string {
   return baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`
+}
+
+function safePeyType(type: string | undefined, apiKey: string): string | undefined {
+  if (type === undefined || !/^[A-Z0-9_]{1,64}$/.test(type)) {
+    return undefined
+  }
+  if (apiKey.trim() && type.toLowerCase().includes(apiKey.trim().toLowerCase())) {
+    return undefined
+  }
+  if (/\d{18}/.test(type)) {
+    return undefined
+  }
+  return type
 }
 
 function parseJson(text: string): unknown {

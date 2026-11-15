@@ -88,6 +88,37 @@ describe('HttpPeyClient.createQr', () => {
     expect(peyError.peyType ?? '').not.toContain('test-key')
   })
 
+  it('drops a peyType that is a CLABE or contains the API key', async () => {
+    const cases = [
+      { apiKey: 'SECRETKEY', type: 'BAD_SECRETKEY' },
+      { apiKey: 'test-key', type: '012180001234567899' },
+    ]
+    for (const { apiKey, type } of cases) {
+      const fetchImpl: typeof fetch = async () => jsonResponse(401, { error: { message: 'nope', type } })
+      const client = new HttpPeyClient({ baseUrl, apiKey, fetchImpl })
+      const error = await client
+        .createQr({
+          amountCents: 0,
+          bankAccountId,
+          metadata: { qrId: 'qr_1', businessId: 'biz_1' },
+        })
+        .catch((caught: unknown) => caught)
+      expect(error).toMatchObject({ code: 'pey_unauthorized' })
+      expect((error as PeyError).peyType).toBeUndefined()
+    }
+
+    const fetchImpl: typeof fetch = async () =>
+      jsonResponse(400, { error: { message: 'nope', type: 'INVALID_CLABE' } })
+    const client = new HttpPeyClient({ baseUrl, apiKey: 'test-key', fetchImpl })
+    await expect(
+      client.createQr({
+        amountCents: 0,
+        bankAccountId,
+        metadata: { qrId: 'qr_1', businessId: 'biz_1' },
+      }),
+    ).rejects.toMatchObject({ code: 'pey_invalid_request', peyType: 'INVALID_CLABE' })
+  })
+
   it('keeps a short Pey error type on invalid requests', async () => {
     const fetchImpl: typeof fetch = async () =>
       jsonResponse(400, { error: { type: 'INVALID_AMOUNT', message: 'nope' } })
