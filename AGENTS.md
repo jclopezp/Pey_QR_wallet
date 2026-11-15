@@ -59,5 +59,7 @@ Keep to this layout. Put shared types in `packages/shared`, not duplicated in ea
 - Add tests for webhook handling (signature, dedupe) and QR creation rules.
 - Ask before adding new dependencies or changing the stack.
 - Do not commit or push unless the user asks. Git remote is SSH (`jclopezp/Pey_QR_wallet`).
+- Branches, commits and PRs follow [`_docs/Project/GIT_WORKFLOW.md`](_docs/Project/GIT_WORKFLOW.md): trunk-based, `<type>/<issue>-<story-id>-<slug>` branch names, Conventional Commits, one story per PR, squash merge, never work on `main`.
+- Story specs live in `_docs/Project/stories/`; implement only `Approved` stories and change the spec in the same PR as any behavior change.
 - Product name lives in one config constant (currently `BuzzQR`); never hard-code it in copy or translations.
 - All user-facing text goes through i18n (Spanish and English); no hard-coded strings in components.
