@@ -19,6 +19,14 @@ _docs           # PRD, brand book, product docs
 
 Keep to this layout. Put shared types in `packages/shared`, not duplicated in each app.
 
+## Commands
+
+Run from the repo root (Node >= 22, npm workspaces `@buzzqr/api`, `@buzzqr/web`, `@buzzqr/shared`):
+
+- `npm run dev`: API and web together (API loads `../../.env` via `tsx --env-file-if-exists`)
+- `npm run lint` / `npm run format:check` / `npm run typecheck`
+- `npm test`: Vitest, whole repo. One file: `npx vitest run path/to/file.test.ts`; one test: `npx vitest run -t "name"`
+
 ## Scope rules
 
 - Stay within the PRD MVP. Non-goals: real wallet passes, roles/teams, password reset, payment links, CoDi push notifications, CFDI, deployment.

@@ -1,0 +1,19 @@
+node_modules/
+dist/
+coverage/
+*.tsbuildinfo
+
+# Secrets: never commit
+.env
+.env.*
+!.env.example
+
+# Local SQLite data
+data/
+*.db
+*.db-journal
+
+.DS_Store
+
+# Claude Code personal settings
+.claude/settings.local.json
