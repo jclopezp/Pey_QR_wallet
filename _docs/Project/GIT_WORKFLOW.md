@@ -56,6 +56,7 @@ Refs #<issue>
 - `scope`: `api`, `web`, `shared`, `db`, `docs`, `ci`.
 - Mention the story ID in the summary when useful: `feat(api): add sign up endpoint (E1-5)`.
 - Commits SHOULD be small and each SHOULD leave the build green.
+- Do not mix unrelated work in one commit. Tooling changes (`.claude/`, CI) belong in `chore:` commits.
 - Commits MUST NOT contain secrets, `.env`, API keys, webhook secrets, database files or `uploads/`.
 - History on feature branches MAY be rewritten (rebase, `--force-with-lease`) **only** on your own branch before review starts. (propuesto, revisar)
 - Force-pushing `main` is FORBIDDEN.
@@ -110,6 +111,7 @@ PR checklist (goes under `## Checklist` in the PR body):
 - Review comments MUST be resolved before merge.
 - Security-sensitive stories (auth E1-5/E1-6, webhook E3-1, isolation E1-8, bank account E1-9) SHOULD be reviewed by a second person with the spec open. (propuesto, revisar)
 - **Merge method: squash merge.** The squash title is the PR title. History on `main` stays linear: one commit per story.
+- Once merged and all AC tests are green, move the story to `Implemented`.
 - The author merges after approval and green CI.
 
 ### Independent adversarial review
@@ -120,6 +122,8 @@ Every PR gets an automated adversarial review from [`.claude/agents/adversarial-
 - **Who suggests it:** the session (human or AI agent) that creates the PR MUST end its message with the box below, filled in with the real PR number and story ID. It MUST NOT run the review itself in that session.
 - **What the reviewer does:** checks the PR against the story, `AGENTS.md` and this document. It posts one comment-only review on the PR (inline where it can) and a short summary on the story's issue. It never approves, merges or moves the board card.
 - **What the author does:** resolves the review threads on the PR. The human approval above is still required.
+- **After pushing fixes:** comment on the PR **and** on the story's issue with a table of `#`, finding and fix, plus what was deliberately not changed and the checks run. Draft it and get the owner's OK before posting.
+- **Description stays true:** if a fix changes a decision recorded in the PR body, update the body so it matches the diff.
 
 ```text
 +----------------------------------------------------------------+
