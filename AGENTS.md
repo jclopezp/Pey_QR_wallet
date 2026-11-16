@@ -72,3 +72,4 @@ Run from the repo root (Node >= 22, npm workspaces `@buzzqr/api`, `@buzzqr/web`,
 - Story specs live in `_docs/Project/stories/`; implement only `Approved` stories and change the spec in the same PR as any behavior change.
 - Product name lives in one config constant (currently `BuzzQR`); never hard-code it in copy or translations.
 - All user-facing text goes through i18n (Spanish and English); no hard-coded strings in components.
+- After pushing fixes for review findings, post a comment on the PR and on the story's issue with a table of `#`, finding and fix, plus what was deliberately not changed and the checks run. Draft it and get the user's OK before posting.
