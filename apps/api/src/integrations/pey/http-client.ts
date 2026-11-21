@@ -3,9 +3,13 @@ import type { PeyErrorCode } from '@buzzqr/shared';
 import { amountCentsToPey } from './money';
 import { PeyError } from './errors';
 import {
+  bankAccountIdSchema,
   bankAccountResponseSchema,
+  createBankAccountRequestSchema,
   createBankAccountResponseSchema,
+  createQrRequestSchema,
   createQrResponseSchema,
+  readInput,
 } from './schemas';
 import type {
   BankAccountResult,
@@ -30,31 +34,34 @@ export class HttpPeyClient implements PeyClient {
   constructor(private readonly options: HttpPeyClientOptions) {}
 
   async createQr(input: CreateQrInput): Promise<CreateQrResult> {
+    const parsed = readInput(createQrRequestSchema, input);
     const body: Record<string, unknown> = {
-      amount: amountCentsToPey(input.amountCents),
-      bankAccountId: input.bankAccountId,
-      metadata: input.metadata,
+      amount: amountCentsToPey(parsed.amountCents),
+      bankAccountId: parsed.bankAccountId,
+      metadata: parsed.metadata,
     };
-    if (input.concept !== undefined) {
-      body.concept = input.concept;
+    if (parsed.concept !== undefined) {
+      body.concept = parsed.concept;
     }
     const json = await this.request('POST', '/codi/qr', body);
-    const parsed = this.parse(createQrResponseSchema, json);
-    return { peyQrId: parsed.id, qrString: parsed.qrString };
+    const response = this.parse(createQrResponseSchema, json);
+    return { peyQrId: response.id, qrString: response.qrString };
   }
 
   async createBankAccount(input: CreateBankAccountInput): Promise<CreateBankAccountResult> {
+    const parsed = readInput(createBankAccountRequestSchema, input);
     const json = await this.request('POST', '/bank-account', {
-      alias: input.alias,
-      name: input.name,
-      clabe: input.clabe,
-      entity: input.entity,
+      alias: parsed.alias,
+      name: parsed.name,
+      clabe: parsed.clabe,
+      entity: parsed.entity,
     });
     return this.parse(createBankAccountResponseSchema, json);
   }
 
   async getBankAccount(id: string): Promise<BankAccountResult> {
-    const json = await this.request('GET', `/bank-account/${encodeURIComponent(id)}`);
+    const accountId = readInput(bankAccountIdSchema, id);
+    const json = await this.request('GET', `/bank-account/${encodeURIComponent(accountId)}`);
     return this.parse(bankAccountResponseSchema, json);
   }
 

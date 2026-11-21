@@ -6,6 +6,12 @@ import type {
   CreateQrResult,
   PeyClient,
 } from './client';
+import {
+  bankAccountIdSchema,
+  createBankAccountRequestSchema,
+  createQrRequestSchema,
+  readInput,
+} from './schemas';
 
 export class MockPeyClient implements PeyClient {
   lastCreateQr?: CreateQrInput;
@@ -13,26 +19,29 @@ export class MockPeyClient implements PeyClient {
 
   constructor(private readonly accounts: Record<string, BankAccountResult> = {}) {}
 
-  createQr(input: CreateQrInput): Promise<CreateQrResult> {
-    this.lastCreateQr = input;
-    return Promise.resolve({ peyQrId: 'mock_qr_1', qrString: '{"TYP":1,"mock":true}' });
+  async createQr(input: CreateQrInput): Promise<CreateQrResult> {
+    const parsed = readInput(createQrRequestSchema, input);
+    this.lastCreateQr = parsed;
+    return { peyQrId: 'mock_qr_1', qrString: '{"TYP":1,"mock":true}' };
   }
 
-  createBankAccount(input: CreateBankAccountInput): Promise<CreateBankAccountResult> {
-    this.lastCreateBankAccount = input;
-    return Promise.resolve({ id: 'mock_ba_1', codiStatus: 'PENDING' });
+  async createBankAccount(input: CreateBankAccountInput): Promise<CreateBankAccountResult> {
+    const parsed = readInput(createBankAccountRequestSchema, input);
+    this.lastCreateBankAccount = parsed;
+    return { id: 'mock_ba_1', codiStatus: 'PENDING' };
   }
 
-  getBankAccount(id: string): Promise<BankAccountResult> {
-    return Promise.resolve(
-      this.accounts[id] ?? {
-        id,
+  async getBankAccount(id: string): Promise<BankAccountResult> {
+    const accountId = readInput(bankAccountIdSchema, id);
+    return (
+      this.accounts[accountId] ?? {
+        id: accountId,
         codiStatus: 'PENDING',
         alias: '',
         name: '',
         clabe: '',
         entity: 'PERSON',
-      },
+      }
     );
   }
 }

@@ -19,6 +19,13 @@ describe('createPeyClient', () => {
     );
   });
 
+  it('rejects an invalid QR before returning a mock result (AC6)', async () => {
+    const client = createPeyClient({ PEY_MODE: 'mock', PEY_BASE_URL: 'https://api.pey.mx' });
+    await expect(client.createQr({ ...qrInput, amountCents: 1.5 })).rejects.toMatchObject({
+      code: 'pey_invalid_request',
+    });
+  });
+
   it('uses the mock client without calling fetch', async () => {
     vi.stubGlobal('fetch', () => {
       throw new Error('network');

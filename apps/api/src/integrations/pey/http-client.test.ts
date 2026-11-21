@@ -49,6 +49,24 @@ describe('HttpPeyClient.createQr', () => {
     expect(result).toEqual({ peyQrId: 'AB12CD34EF', qrString: '{"TYP":1}' });
   });
 
+  it('rejects an invalid QR body before calling Pey (AC6)', async () => {
+    let calls = 0;
+    const fetchImpl: typeof fetch = async () => {
+      calls += 1;
+      return jsonResponse(201, { id: 'AB12CD34EF', qrString: '{"TYP":1}' });
+    };
+    const client = new HttpPeyClient({ baseUrl, apiKey: 'test-key', fetchImpl });
+
+    await expect(
+      client.createQr({
+        amountCents: -1,
+        bankAccountId,
+        metadata: { qrId: 'qr_1', businessId: 'biz_1' },
+      }),
+    ).rejects.toMatchObject({ code: 'pey_invalid_request', message: 'pey_invalid_request' });
+    expect(calls).toBe(0);
+  });
+
   it('sends pesos and concept when both are present', async () => {
     let body: { amount: number; concept?: string } | undefined;
     const fetchImpl: typeof fetch = async (_input, init) => {
@@ -204,8 +222,12 @@ describe('HttpPeyClient bank accounts', () => {
       entity: 'BUSINESS',
     });
     expect(result).toEqual({ id: accountId, codiStatus: 'PENDING' });
+    expect(logs).toEqual([
+      { method: 'POST', path: '/bank-account', status: 200, durationMs: expect.any(Number) },
+    ]);
     expect(JSON.stringify(logs)).not.toContain(clabe);
     expect(JSON.stringify(logs)).not.toContain('Bearer');
+    expect(JSON.stringify(logs)).not.toContain('test-key');
   });
 
   it('reads a bank account by id', async () => {
