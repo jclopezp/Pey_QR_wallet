@@ -53,11 +53,11 @@ The full CLABE is sent to Pey and **not stored** by us (only `clabeLast4`). (pro
 - **AC3** On submit the API MUST call Pey `POST /bank-account` (server side only) and save the returned Pey id in `businesses.peyBankAccountId`.
 - **AC4** The business MUST be stored with status `pending` after a successful registration, and the owner MUST see the expected wait (up to 5 business days).
 - **AC5** Pey errors (invalid CLABE, bank without CoDi, etc.) MUST be explained in plain language, in the active language; the raw Pey message MUST NOT be shown.
-- **AC6** An owner MUST NOT be able to register a second account while one is `pending` or `active`. Changing the account is out of scope. (propuesto, revisar)
+- **AC6** An owner MUST NOT be able to register a second account while one is `pending` or `active`. The API responds `409` with code `account_already_registered` and does not call Pey. Changing the account is out of scope.
 - **AC7** The full CLABE MUST NOT be logged or persisted; only the last 4 digits MAY be stored and shown.
 - **AC8** The endpoint MUST only act on the logged-in user's business.
 - **AC9** If Pey is unreachable, the form MUST show a retry message and MUST NOT leave a half-saved account (no `peyBankAccountId` without a matching status).
-- **AC10** Double-submits MUST NOT register the account twice (idempotent per business). (propuesto, revisar)
+- **AC10** Double-submits MUST NOT register the account twice (idempotent per business). A second request for the same business while the first registration is in flight receives that same result and does not call Pey again. After the account is `pending` or `active`, a later request is rejected.
 
 ## Business rules
 
