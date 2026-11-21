@@ -5,6 +5,7 @@ const nonEmpty = z.string().min(1);
 const EnvSchema = z.object({
   NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
   PORT: z.coerce.number().int().positive().default(3001),
+  PEY_MODE: z.enum(['mock', 'live']).default('mock'),
   PEY_BASE_URL: z.url({ protocol: /^https?$/ }),
   DATABASE_URL: nonEmpty,
   // Secrets are required in every environment so a forgotten NODE_ENV can never boot with an empty key.

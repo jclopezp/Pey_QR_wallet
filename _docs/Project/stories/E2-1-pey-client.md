@@ -39,12 +39,12 @@ None.
 - **AC2** The client MUST be defined by an interface (`PeyClient`) with at least `createQr`, `createBankAccount`, `getBankAccount` (more added by later stories), so a mock can replace it.
 - **AC3** A `MockPeyClient` MUST exist and be selected by configuration (`PEY_MODE=mock|live`); `live` MUST fail at startup if `PEY_API_KEY` is missing.
 - **AC4** The API key MUST be read from env and sent as `Authorization: Bearer <key>`; it MUST NOT be logged, returned in errors, or reach the browser.
-- **AC5** `createQr` MUST send `amount`, `concept` (when present), `metadata: { qrId, businessId }` and the business's bank account id, and MUST return `{ peyQrId, qrString }`. (field names propuesto, revisar)
-- **AC6** Requests and responses MUST be validated with zod; an unexpected response shape MUST raise a typed error, not crash.
+- **AC5** `createQr` MUST send `amount`, `concept` (when present), `metadata: { qrId, businessId }` and the business's bank account id, and MUST return `{ peyQrId, qrString }`. `peyQrId` is Pey's response `id`.
+- **AC6** Requests and responses MUST be validated with zod. A request that fails validation MUST raise `pey_invalid_request` and MUST NOT be sent. An unexpected response shape MUST raise `pey_unknown`, not crash.
 - **AC7** Pey errors MUST be mapped to our own error codes (`pey_invalid_request`, `pey_unauthorized`, `pey_unavailable`, `pey_unknown`) with friendly messages handled by the web via i18n.
-- **AC8** Every request MUST have a timeout (10 s, propuesto, revisar) and MUST NOT be retried automatically for non-idempotent calls (QR creation), to avoid duplicate QRs. (propuesto, revisar)
+- **AC8** Every request MUST have a timeout of 10 seconds and MUST NOT be retried automatically, so QR creation cannot be duplicated by a retry.
 - **AC9** Tests MUST NOT make real Pey calls (AGENTS.md).
-- **AC10** Logs SHOULD record method, path, status and duration, never headers or bodies with sensitive data. (propuesto, revisar)
+- **AC10** Logs SHOULD record method, path, status and duration, never headers or bodies with sensitive data. The server passes that logger into the live client.
 
 ## Business rules
 
@@ -81,6 +81,16 @@ Feature: Pey client
 | AC3 | unit | live mode without key fails at startup |
 | AC6 | unit | malformed Pey response raises a typed error |
 | AC1 | lint/arch | web workspace has no import path to `integrations/pey` |
+
+## Decisions recorded here
+
+Checked against Pey OpenAPI (`https://docs.pey.mx/openapi.json`) and the E1-1 scaffold:
+
+- `POST /codi/qr` sends `amount` (MXN, from integer cents), `bankAccountId`, `metadata` with string `qrId` and `businessId`, and `concept` only when the caller passed one. It does not send `generateImage`, `expiration`, or `numRef`.
+- `POST /bank-account` sends `alias`, `name`, `clabe` (18 digits), and `entity` (`PERSON` or `BUSINESS`).
+- `PEY_API_KEY` is required in every environment by app config. Live mode still refuses to listen when the key is missing or blank. Mock mode does not call Pey.
+- `PeyError.message` is the error code. This story has no screen, so Spanish and English copy, both themes, and mobile layout do not apply. The web translates the four codes when a screen shows them.
+- The live client logs only `method`, `path`, `status`, and `durationMs`.
 
 ## Technical notes
 

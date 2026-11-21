@@ -31,7 +31,7 @@ describe('.env.example', () => {
   });
 
   it('has no credential-like values anywhere', () => {
-    const allowed = ['NODE_ENV', 'PORT', 'PEY_BASE_URL', 'DATABASE_URL'];
+    const allowed = ['NODE_ENV', 'PORT', 'PEY_MODE', 'PEY_BASE_URL', 'DATABASE_URL'];
     for (const [key, value] of Object.entries(env)) {
       if (!allowed.includes(key)) expect(value, key).toBe('');
     }
