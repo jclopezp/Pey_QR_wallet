@@ -19,6 +19,14 @@ _docs           # PRD, brand book, product docs
 
 Keep to this layout. Put shared types in `packages/shared`, not duplicated in each app.
 
+## Commands
+
+Run from the repo root (Node >= 22, npm workspaces `@buzzqr/api`, `@buzzqr/web`, `@buzzqr/shared`):
+
+- `npm run dev`: API and web together (API loads `../../.env` via `tsx --env-file-if-exists`)
+- `npm run lint` / `npm run format:check` / `npm run typecheck`
+- `npm test`: Vitest, whole repo. One file: `npx vitest run path/to/file.test.ts`; one test: `npx vitest run -t "name"`
+
 ## Scope rules
 
 - Stay within the PRD MVP. Non-goals: real wallet passes, roles/teams, password reset, payment links, CoDi push notifications, CFDI, deployment.
@@ -59,5 +67,9 @@ Keep to this layout. Put shared types in `packages/shared`, not duplicated in ea
 - Add tests for webhook handling (signature, dedupe) and QR creation rules.
 - Ask before adding new dependencies or changing the stack.
 - Do not commit or push unless the user asks. Git remote is SSH (`jclopezp/Pey_QR_wallet`).
+- Branches, commits and PRs follow [`_docs/Project/GIT_WORKFLOW.md`](_docs/Project/GIT_WORKFLOW.md): trunk-based, `<type>/<issue>-<story-id>-<slug>` branch names, Conventional Commits, one story per PR, squash merge, never work on `main`.
+- After you create a PR, end your answer with the "NEXT STEP: ADVERSARIAL REVIEW" box from `_docs/Project/GIT_WORKFLOW.md` (section 5), filled in with the PR number and story ID. Do not run the review in the same session.
+- Story specs live in `_docs/Project/stories/`; implement only `Approved` stories and change the spec in the same PR as any behavior change.
 - Product name lives in one config constant (currently `BuzzQR`); never hard-code it in copy or translations.
 - All user-facing text goes through i18n (Spanish and English); no hard-coded strings in components.
+- After pushing fixes for review findings, post a comment on the PR and on the story's issue with a table of `#`, finding and fix, plus what was deliberately not changed and the checks run. Draft it and get the user's OK before posting.

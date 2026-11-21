@@ -1,15 +1,15 @@
-import type { PeyErrorCode } from '@peyqr/shared'
+import type { PeyErrorCode } from '@buzzqr/shared';
 
 export class PeyError extends Error {
-  readonly code: PeyErrorCode
-  readonly peyType?: string
+  readonly code: PeyErrorCode;
+  readonly peyType?: string;
 
   constructor(code: PeyErrorCode, peyType?: string) {
-    super(code)
-    this.name = 'PeyError'
-    this.code = code
+    super(code);
+    this.name = 'PeyError';
+    this.code = code;
     if (peyType !== undefined) {
-      this.peyType = peyType
+      this.peyType = peyType;
     }
   }
 }

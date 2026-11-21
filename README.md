@@ -9,13 +9,33 @@ Web app for businesses in Mexico to collect payments with CoDi QR codes, powered
 - **Two QR types**
   - **Generic:** no amount or description; the payer enters the amount.
   - **Custom:** fixed amount and description, for a specific product or service.
-- **Wallet access:** save the QR to Apple Wallet and Google Wallet so the owner can show it quickly. *(Mocked in the MVP.)*
+- **Wallet access:** save the QR to Apple Wallet and Google Wallet so the owner can show it quickly. _(Mocked in the MVP.)_
 - **Payment notifications:** real-time alert when a payment is completed (Pey webhook → Server-Sent Events).
 - **Payment records:** history of payments received, with filters and totals.
 
 ## Status
 
 Hackathon MVP, runs locally. Wallet integrations are mocked behind a `WalletProvider` interface; real passes come after the MVP.
+
+## Getting started
+
+Requires Node 22 or later.
+
+```bash
+npm install
+cp .env.example .env   # fill in PEY_API_KEY, PEY_WEBHOOK_SECRET and SESSION_SECRET
+npm run dev            # API on http://localhost:3001, web on http://localhost:5173
+```
+
+Check the API with `curl http://localhost:3001/health`. The three secrets are required in every environment; the API refuses to start if one is empty. Generate a local `SESSION_SECRET` with `openssl rand -hex 32`. Until you have real Pey credentials, any non-empty placeholder works for `PEY_API_KEY` and `PEY_WEBHOOK_SECRET`. `.env` is gitignored and stays on your machine.
+
+| Script              | What it does                                    |
+| ------------------- | ----------------------------------------------- |
+| `npm run dev`       | Starts the API and the web app together         |
+| `npm run lint`      | ESLint                                          |
+| `npm run format`    | Prettier (writes); `format:check` only verifies |
+| `npm run typecheck` | `tsc` in strict mode in every workspace         |
+| `npm test`          | Vitest                                          |
 
 ## Planned stack
 

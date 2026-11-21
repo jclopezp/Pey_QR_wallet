@@ -1,7 +1,21 @@
-import type { PeyClient } from './integrations/pey/client'
-import { createPeyClient, type PeyClientEnv } from './integrations/pey/create-client'
+import { buildApp } from './app';
+import { loadConfig } from './config';
+import { start } from './integrations/pey/startup';
 
-export async function start(env: PeyClientEnv, listen: (pey: PeyClient) => Promise<void>): Promise<void> {
-  const pey = createPeyClient(env)
-  await listen(pey)
-}
+const config = loadConfig();
+const app = buildApp({ logger: true });
+
+// Build the Pey client before listening so live mode without a key never opens the port.
+start(
+  {
+    PEY_MODE: config.PEY_MODE,
+    PEY_API_KEY: config.PEY_API_KEY,
+    PEY_BASE_URL: config.PEY_BASE_URL,
+  },
+  async () => {
+    await app.listen({ port: config.PORT, host: '127.0.0.1' });
+  },
+).catch((error: unknown) => {
+  app.log.error(error);
+  process.exit(1);
+});

@@ -5,6 +5,6 @@ export type {
   CreateQrInput,
   CreateQrResult,
   PeyClient,
-} from './client'
-export { createPeyClient, type PeyClientEnv } from './create-client'
-export { PeyError } from './errors'
+} from './client';
+export { createPeyClient, type PeyClientEnv } from './create-client';
+export { PeyError } from './errors';

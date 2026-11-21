@@ -3,6 +3,6 @@ export const peyErrorCodes = [
   'pey_unauthorized',
   'pey_unavailable',
   'pey_unknown',
-] as const
+] as const;
 
-export type PeyErrorCode = (typeof peyErrorCodes)[number]
+export type PeyErrorCode = (typeof peyErrorCodes)[number];
