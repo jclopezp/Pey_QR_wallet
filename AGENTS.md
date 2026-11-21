@@ -19,6 +19,14 @@ _docs           # PRD, brand book, product docs
 
 Keep to this layout. Put shared types in `packages/shared`, not duplicated in each app.
 
+## Commands
+
+Run from the repo root (Node >= 22, npm workspaces `@buzzqr/api`, `@buzzqr/web`, `@buzzqr/shared`):
+
+- `npm run dev`: API and web together (API loads `../../.env` via `tsx --env-file-if-exists`)
+- `npm run lint` / `npm run format:check` / `npm run typecheck`
+- `npm test`: Vitest, whole repo. One file: `npx vitest run path/to/file.test.ts`; one test: `npx vitest run -t "name"`
+
 ## Scope rules
 
 - Stay within the PRD MVP. Non-goals: real wallet passes, roles/teams, password reset, payment links, CoDi push notifications, CFDI, deployment.
@@ -64,3 +72,4 @@ Keep to this layout. Put shared types in `packages/shared`, not duplicated in ea
 - Story specs live in `_docs/Project/stories/`; implement only `Approved` stories and change the spec in the same PR as any behavior change.
 - Product name lives in one config constant (currently `BuzzQR`); never hard-code it in copy or translations.
 - All user-facing text goes through i18n (Spanish and English); no hard-coded strings in components.
+- After pushing fixes for review findings, post a comment on the PR and on the story's issue with a table of `#`, finding and fix, plus what was deliberately not changed and the checks run. Draft it and get the user's OK before posting.
